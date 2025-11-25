@@ -1,11 +1,13 @@
-import {useReducer, useEffect} from 'react';
-import type { Todo } from "./interfaces/Todo";
+import {useReducer, useEffect, useState, useMemo} from 'react';
+import type { Todo, FilterType } from "./interfaces/Todo";
 import TodoList from "./components/TodoList"
 import AddTodo from './components/AddTodo';
 import { todosReducer, initialTodos } from './hooks/todosReducer';
+import FilterTodo from './components/FilterTodo';
 
 function App() {
   const [todos, dispatch] = useReducer(todosReducer, initialTodos);
+  const [filter, setFilter] = useState<FilterType>('ALL');
 
   const handleDeleteTodo = (id: string) => {
     dispatch({ type: 'DELETE_TODO', payload: id });
@@ -18,6 +20,20 @@ function App() {
   const handleTaskCompletion = (id: string) => {
     dispatch({ type: 'TOGGLE_TODO', payload: id });
   };
+  
+  const handleFilterTodo = (filter: FilterType) => {
+    setFilter(filter);
+  };
+
+  const filteredTodos = useMemo(() => {
+    if (filter === 'ALL') {
+      return todos;
+    } else if (filter === 'COMPLETED') {
+      return todos.filter(todo => todo.isCompleted === true);
+    } else {
+      return todos.filter(todo => todo.isCompleted === false);
+    }
+  }, [todos, filter]);
     
   useEffect(() => {
     const getToDoList = async () => {
@@ -34,10 +50,13 @@ function App() {
 
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center gap-4">
       <h1 className='text-3xl font-bold p-4 text-center'>Todo List</h1>
       <AddTodo handleAddTodo={handleAddTodo} />
-      <TodoList todos={todos} handleTaskCompletion={handleTaskCompletion} handleDeleteTodo={handleDeleteTodo} />
+      <div className="flex flex-col items-center justify-center">
+      <FilterTodo handleFilterTodo={handleFilterTodo} currentFilter={filter} />
+      <TodoList todos={filteredTodos} handleTaskCompletion={handleTaskCompletion} handleDeleteTodo={handleDeleteTodo} />
+      </div>
     </div>
   )
 }
