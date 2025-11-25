@@ -14,3 +14,7 @@ export interface Todo {
     isCompleted: boolean;
     createdAt: Date;
 }
+
+export interface AddTodoProps {
+  handleAddTodo: (todo: Todo) => void;
+}
