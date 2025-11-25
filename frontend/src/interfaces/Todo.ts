@@ -21,6 +21,11 @@ export interface AddTodoProps {
   handleAddTodo: (todo: Todo) => void;
 }
 
+export interface FilterTodoProps{
+  handleFilterTodo: (filter: FilterType) => void;
+  currentFilter: FilterType;
+}
+
 export type ActionMap = {
   DELETE_TODO: string; 
   ADD_TODO: Todo;
@@ -38,4 +43,6 @@ export type TodoActions =
   | TodoAction<'DELETE_TODO'>
   | TodoAction<'ADD_TODO'>
   | TodoAction<'TOGGLE_TODO'>
-  | TodoAction<'SET_TODOS'>;
+  | TodoAction<'SET_TODOS'>
+
+export type FilterType = 'ALL' | 'COMPLETED' | 'NOT_COMPLETED';
