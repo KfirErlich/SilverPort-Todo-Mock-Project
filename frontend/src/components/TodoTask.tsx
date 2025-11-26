@@ -1,8 +1,10 @@
 import type { TodoTaskProps } from "../interfaces/Todo";
 import { FaTrash } from "react-icons/fa";
+import { useTodoActions } from "../context/TodoActionsContext";
 
 
-function TodoTask({ todo, handleTaskCompletion, handleDeleteTodo }: TodoTaskProps) {
+function TodoTask({ todo }: TodoTaskProps) {
+    const { handleTaskCompletion, handleDeleteTodo } = useTodoActions();
     const taskCompleted = todo.isCompleted ? 'bg-green-200' : 'bg-red-200';
   return (
       <div className={`flex gap-4 items-center justify-between ${taskCompleted}

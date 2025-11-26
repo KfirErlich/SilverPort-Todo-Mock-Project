@@ -6,6 +6,7 @@ import { todosReducer, initialTodos } from './hooks/todosReducer';
 import FilterTodo from './components/FilterTodo';
 import { getTodos, updateTodoCompletion, deleteTodo } from './services/todoApi';
 import HomePage from './components/pages/HomePage';
+import { TodoActionsProvider } from './context/TodoActionsContext';
 
 function App() {
   const [todos, dispatch] = useReducer(todosReducer, initialTodos);
@@ -76,14 +77,18 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      <h1 className='text-3xl font-bold p-4 text-center'>Todo List</h1>
-      <AddTodo handleAddTodo={handleAddTodo} />
-      <div className="flex flex-col items-center justify-center">
-      <FilterTodo handleFilterTodo={handleFilterTodo} currentFilter={filter} />
-      <TodoList todos={filteredTodos} handleTaskCompletion={handleTaskCompletion} handleDeleteTodo={handleDeleteTodo} />
+    <TodoActionsProvider
+      value={{ handleTaskCompletion, handleDeleteTodo }}
+    >
+      <div className="flex flex-col items-center justify-center gap-4">
+        <h1 className='text-3xl font-bold p-4 text-center'>Todo List</h1>
+        <AddTodo handleAddTodo={handleAddTodo} />
+        <div className="flex flex-col items-center justify-center">
+          <FilterTodo handleFilterTodo={handleFilterTodo} currentFilter={filter} />
+          <TodoList todos={filteredTodos} />
+        </div>
       </div>
-    </div>
+    </TodoActionsProvider>
   )
 }
 

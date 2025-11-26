@@ -1,14 +1,10 @@
 export interface TodoListProps {
-    todos: Todo[];
-    handleTaskCompletion: (id: string) => void 
-    handleDeleteTodo: (id: string) => void 
-  }
+  todos: Todo[];
+}
 
 export interface TodoTaskProps {
-    todo: Todo;
-    handleTaskCompletion: (id: string) => void 
-    handleDeleteTodo: (id: string) => void 
-  }
+  todo: Todo;
+}
 
 export interface Todo {
     id: string;
